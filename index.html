@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>你谈起恋爱，是哪种动物？· 恋爱人格测评</title>
+<style>
+:root{
+  --bg:#faf6f0; --paper:#fffdf9; --ink:#332b28; --muted:#8b817a; --line:#ece2d6;
+  --wine:#7a2e4a; --wine-soft:#f7eaee; --gold:#c39a55; --rose:#e8a9b4; --green:#6e8d7b;
+  --shadow:0 2px 6px rgba(90,60,45,.04),0 16px 40px rgba(90,60,45,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.8;
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+  background-image:radial-gradient(circle at 8% 4%,rgba(236,199,180,.28),transparent 38%),radial-gradient(circle at 94% 82%,rgba(210,222,210,.3),transparent 40%);
+  background-attachment:fixed}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.serif{font-family:"Songti SC","STSong","SimSun",serif}
+.app{max-width:940px;margin:0 auto;padding:0 20px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 4px 18px}
+.brand{font-size:11px;letter-spacing:.22em;color:var(--wine);font-weight:700}
+.brand span{display:block;font-size:10px;letter-spacing:.14em;color:var(--muted);font-weight:400;margin-top:2px}
+.topbar .mini{font-size:11.5px;color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.6);padding:5px 12px;border-radius:99px}
+.screen{display:none;animation:fade .35s ease both}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+
+/* ---------- home ---------- */
+.hero{position:relative;overflow:hidden;padding:54px 48px 44px;margin-bottom:18px}
+.hero:before{content:"";position:absolute;right:-60px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(122,46,74,.09),transparent 70%)}
+.hero .eyebrow{font-size:11px;letter-spacing:.24em;color:var(--gold);font-weight:700}
+.hero h1{font-size:46px;line-height:1.35;margin:18px 0 12px;letter-spacing:.02em}
+.hero h1 em{font-style:normal;color:var(--wine)}
+.hero .sub{color:#6d625b;font-size:14.5px;max-width:520px;margin:0 0 8px}
+.hero .facts{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.hero .facts span{font-size:12px;color:#6d625b;background:#f8f2ea;border:1px solid var(--line);padding:5px 12px;border-radius:99px}
+.btn-main{display:inline-flex;align-items:center;gap:10px;background:var(--wine);color:#fff;font-size:15px;font-weight:600;
+  padding:14px 30px;border-radius:12px;box-shadow:0 8px 20px rgba(122,46,74,.22);transition:.2s}
+.btn-main:hover{background:#631f3b;transform:translateY(-2px)}
+.btn-main .arw{font-size:17px}
+.btn-line{border:1px solid var(--line);background:#fff;color:var(--wine);font-size:13.5px;padding:11px 20px;border-radius:11px;transition:.2s}
+.btn-line:hover{border-color:var(--wine)}
+.hero-art{position:absolute;right:38px;bottom:26px;width:180px;opacity:.95}
+@media(max-width:700px){.hero-art{display:none}}
+.gallery-head{display:flex;align-items:baseline;gap:12px;margin:30px 4px 14px}
+.gallery-head h2{font-size:20px;margin:0}
+.gallery-head span{font-size:12px;color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.animal-card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 12px;text-align:center;transition:.2s;cursor:pointer}
+.animal-card:hover{transform:translateY(-3px);border-color:#dcc3cb;box-shadow:var(--shadow)}
+.animal-card svg{width:74px;height:74px;display:block;margin:0 auto 6px}
+.animal-card b{display:block;font-size:13px}
+.animal-card small{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:3px}
+.animal-card.win{border-color:var(--wine);background:var(--wine-soft)}
+.rule-note{margin:18px 4px 0;font-size:12px;color:var(--muted);line-height:1.8}
+
+/* ---------- quiz ---------- */
+.quiz-wrap{padding:26px 30px 28px}
+.quiz-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.quiz-top .cat{font-size:12px;color:var(--wine);background:var(--wine-soft);padding:4px 12px;border-radius:99px}
+.quiz-top .count{margin-left:auto;font-family:Georgia,serif;font-size:13px;color:var(--muted);letter-spacing:.06em}
+.bar{height:6px;background:#f0e9df;border-radius:99px;overflow:hidden;margin-bottom:26px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#c58a9c,var(--wine));border-radius:99px;transition:width .35s}
+.qnum{font-family:Georgia,serif;font-size:12px;letter-spacing:.16em;color:var(--gold);margin-bottom:8px}
+.qtitle{font-size:23px;line-height:1.6;margin:0 0 6px}
+.qhint{font-size:12.5px;color:var(--muted);margin:0 0 20px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);
+  border-radius:13px;padding:14px 18px;font-size:14.5px;line-height:1.6;transition:.18s}
+.opt:hover{border-color:#d8bcc6;background:#fffafb;transform:translateX(2px)}
+.opt .letter{flex:none;width:26px;height:26px;border-radius:50%;background:#f5efe8;color:#8a7a70;
+  display:grid;place-items:center;font-family:Georgia,serif;font-size:12px;font-weight:700;transition:.18s}
+.opt.on{border-color:var(--wine);background:var(--wine-soft)}
+.opt.on .letter{background:var(--wine);color:#fff}
+.quiz-foot{display:flex;align-items:center;gap:10px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.quiz-foot .spacer{flex:1}
+.quiz-foot .progress-txt{font-size:12px;color:var(--muted)}
+.sheet-btn{font-size:12.5px;color:var(--wine);border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:9px}
+
+/* ---------- answer sheet / toast ---------- */
+.overlay{position:fixed;inset:0;background:rgba(45,32,28,.42);backdrop-filter:blur(3px);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.on{display:flex}
+.sheet{background:var(--paper);border-radius:20px;padding:26px;width:min(480px,100%);box-shadow:0 24px 60px rgba(40,25,20,.25)}
+.sheet h3{margin:0 0 4px;font-size:18px}
+.sheet p{font-size:12.5px;color:var(--muted);margin:0 0 18px}
+.grid18{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.grid18 button{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:#fff;font-family:Georgia,serif;font-size:13px;color:#7b6f67}
+.grid18 button.done{background:var(--wine-soft);border-color:#e2c4cf;color:var(--wine);font-weight:700}
+.grid18 button.cur{outline:2px solid var(--wine);outline-offset:1px}
+.sheet .close{width:100%;margin-top:20px;background:var(--wine);color:#fff;border-radius:10px;padding:11px;font-size:14px}
+#toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,14px);background:#3b2c28;color:#fff;
+  font-size:13.5px;padding:11px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:80;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- result ---------- */
+.result-hero{padding:34px 40px;text-align:center;position:relative;overflow:hidden}
+.result-hero .label{font-size:11px;letter-spacing:.22em;color:var(--gold);font-weight:700}
+.result-hero .pic{width:150px;height:150px;margin:12px auto 6px;display:block}
+.result-hero h1{font-size:34px;margin:0 0 4px}
+.result-hero .en{font-family:Georgia,serif;font-size:11px;letter-spacing:.2em;color:var(--muted);margin-bottom:10px}
+.result-hero .tagline{font-size:15px;color:var(--wine);margin:0 0 18px}
+.result-hero .match{display:inline-block;font-size:12px;color:var(--muted);background:#f8f2ea;border:1px solid var(--line);padding:5px 14px;border-radius:99px}
+.sec{padding:26px 34px;margin-top:16px}
+.sec h2{font-size:17px;margin:0 0 4px}
+.sec .cap{font-size:12px;color:var(--muted);margin:0 0 18px}
+.dims{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+.dim .dh{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px}
+.dim .dh b{font-weight:600}
+.dim .dh span{font-family:Georgia,serif;color:var(--wine)}
+.dim .track{height:7px;background:#f1eae1;border-radius:99px;overflow:hidden}
+.dim .track i{display:block;height:100%;background:linear-gradient(90deg,#d8a6b4,var(--wine));border-radius:99px}
+.prose{font-size:14px;color:#5b514b;line-height:1.95;margin:0}
+.advice{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.advice li{display:flex;gap:12px;background:#faf6f1;border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:13.5px;line-height:1.75}
+.advice li i{flex:none;font-family:Georgia,serif;color:var(--wine);font-style:normal;font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini-box{background:#faf6f1;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.mini-box b{font-size:13px;color:var(--wine);display:block;margin-bottom:6px}
+.mini-box p{font-size:13px;color:#5b514b;margin:0;line-height:1.8}
+.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.howto{font-size:12.5px;color:var(--muted);line-height:1.9;margin:14px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
+.gallery.grid3{grid-template-columns:repeat(6,1fr);gap:10px}
+.gallery.grid3 .animal-card{padding:10px 6px;border-radius:13px}
+.gallery.grid3 svg{width:56px;height:56px}
+.gallery.grid3 b{font-size:11.5px}
+.gallery.grid3 small{display:none}
+footer{text-align:center;font-size:11.5px;color:var(--muted);margin-top:34px;line-height:1.9}
+@media(max-width:700px){
+  .app{padding:0 14px 44px}.hero{padding:36px 24px 32px}.hero h1{font-size:32px}
+  .gallery{grid-template-columns:repeat(3,1fr)}.gallery.grid3{grid-template-columns:repeat(4,1fr)}
+  .quiz-wrap{padding:20px 18px 22px}.qtitle{font-size:19px}.opt{padding:12px 14px;font-size:13.8px}
+  .sec,.result-hero{padding:24px 20px}.dims,.two{grid-template-columns:1fr}
+  .result-hero h1{font-size:27px}.grid18{grid-template-columns:repeat(6,1fr)}
+  .quiz-foot .progress-txt{display:none}
+}
+@media print{.topbar .mini,.sheet-btn,.result-actions,.quiz-foot{display:none}.screen{display:none!important}.screen.active{display:block!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">THE LITTLE ATLAS OF LOVE<span>恋爱动物人格图鉴 · 第 01 卷</span></div>
+    <div class="mini" id="topMini">18 道题 · 约 3 分钟</div>
+  </div>
+
+  <!-- ============ HOME ============ -->
+  <section id="home" class="screen active">
+    <div class="hero card">
+      <div class="eyebrow">A QUIZ ABOUT HOW YOU LOVE</div>
+      <h1 class="serif">你谈起恋爱，<br>是<em>哪种动物</em>？</h1>
+      <p class="sub">有人一上头就猛兽出笼，有人把小尾巴藏得严严实实。先别急着说「我才不是」——</p>
+      <p class="sub">18 个小问题，看看你在关系里的相处模式。答完拿一张专属动物画像，顺手发给朋友评评理：像不像你？</p>
+      <div class="facts">
+        <span>18 道题</span><span>12 种动物画像</span><span>结果由答案算出，不随机</span><span>纯本地运行，不收集任何信息</span>
+      </div>
+      <button class="btn-main" id="startBtn">揭晓我的动物 <span class="arw">↗</span></button>
+      <div class="hero-art" id="heroArt"></div>
+    </div>
+    <div class="gallery-head"><h2 class="serif">先认识一下这 12 位</h2><span>点开任意一张，看看它的脾气</span></div>
+    <div class="gallery" id="gallery"></div>
+    <p class="rule-note">计分规则：每道题的四个选项分别对应「主动 / 亲密 / 表达 / 从容」四个维度上的不同倾向，答完统一累加并归一化，再与 12 种动物画像的维度坐标比对，取最接近的一种。没有随机数，同一组答案永远得到同一个结果；改答案会重新计算。</p>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="quiz" class="screen">
+    <div class="quiz-wrap card">
+      <div class="quiz-top">
+        <span class="cat" id="qCat"></span>
+        <button class="sheet-btn" id="sheetBtn">答题卡</button>
+        <span class="count" id="qCount"></span>
+      </div>
+      <div class="bar"><i id="qBar" style="width:0%"></i></div>
+      <div class="qnum" id="qNum"></div>
+      <h2 class="qtitle serif" id="qTitle"></h2>
+      <p class="qhint" id="qHint">选最接近你的一个，没有对错，也不用每次都这样。</p>
+      <div class="opts" id="qOpts"></div>
+      <div class="quiz-foot">
+        <button class="btn-line" id="prevBtn">← 上一题</button>
+        <span class="spacer"></span>
+        <span class="progress-txt" id="qProgress"></span>
+        <button class="btn-main" id="nextBtn" style="padding:11px 24px;font-size:14px">下一题 →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="result" class="screen">
+    <div class="result-hero card">
+      <div class="label">YOUR ANIMAL</div>
+      <div class="pic" id="rPic"></div>
+      <h1 class="serif" id="rName"></h1>
+      <div class="en" id="rEn"></div>
+      <p class="tagline" id="rTag"></p>
+      <div class="match" id="rMatch"></div>
+    </div>
+
+    <div class="sec card">
+      <h2 class="serif">你的四维坐标</h2>
+      <p class="cap">由 18 道题的答案累加换算而来，满分 100</p>
+      <div class="dims" id="rDims"></div>
+      <p class="howto" id="rHow"></p>
+    </div>
+
+    <div class="sec card">
+      <h2 class="serif">你在恋爱里的样子</h2>
+      <p class="cap">关于这一型，最常被说中的几件事</p>
+      <p class="prose" id="rDesc"></p>
+    </div>
+
+    <div class="sec card">
+      <h2 class="serif">给你的三条行动建议</h2>
+      <p class="cap">不是让你改性格，是让关系少一点误会</p>
+      <ul class="advice" id="rAdvice"></ul>
+    </div>
+
+    <div class="sec card">
+      <div class="two">
+        <div class="mini-box"><b>和这样的你相处</b><p id="rWith"></p></div>
+        <div class="mini-box"><b>容易踩的坑</b><p id="rTrap"></p></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-main" id="restartBtn" style="padding:11px 24px;font-size:14px">重新测试 ↺</button>
+        <button class="btn-line" id="backEditBtn">返回修改答案</button>
+        <button class="btn-line" id="copyBtn">复制结果文案</button>
+      </div>
+    </div>
+
+    <div class="gallery-head"><h2 class="serif">12 种画像全览</h2><span>你的是 highlighted 那张</span></div>
+    <div class="gallery grid3" id="rGallery"></div>
+  </section>
+
+  <footer>这是一个纯静态测评页面 · 所有内容都在一个 index.html 里 · 不需要联网、不需要登录、不收集任何信息<br>结果仅为趣味自评，不构成专业心理诊断。</footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet">
+    <h3 class="serif">答题卡</h3>
+    <p>灰色是还没答的，点任意题号可以直接跳过去修改；改完答案，结果会重新计算。</p>
+    <div class="grid18" id="grid18"></div>
+    <button class="close" id="closeSheet">继续答题</button>
+  </div>
+</div>
+<div id="toast"></div>
+<pre id="selftest-output" style="display:none"></pre>
+
+<script>
+/* ============================================================
+   恋爱动物人格测评 · 单文件实现
+   结果完全由答案决定：四维累加 -> 归一化 -> 与画像坐标求距离
+   ============================================================ */
+
+const DIMS = [
+  {k:'主动', d:'主动推进关系的程度'},
+  {k:'亲密', d:'对贴近与陪伴的需要'},
+  {k:'表达', d:'把感受说出口的意愿'},
+  {k:'从容', d:'情绪稳定与边界感'}
+];
+
+/* 四类典型倾向，每道题的四个选项按语义挂到其中一类（P/C/R/I）或变体上 */
+const TEND = {
+  P:[3,2,3,1],  P2:[3,1,2,2],
+  C:[2,3,2,1],  C2:[1,3,3,0],
+  R:[1,1,0,3],  R2:[0,2,0,3],
+  I:[0,0,1,3],  I2:[1,0,2,2]
+};
+
+const QUESTIONS = [
+  {c:'想想最近的恋爱或心动经历', t:'刚遇到一个很心动的人，你通常会怎样？', o:[
+    ['直接找机会约见面，先行动再说','P'],['一边积极回复，一边已经开始想以后','C'],
+    ['心里挺在意，表面还是和平时一样','R'],['慢慢了解，先把今天的生活过好','I']]},
+  {c:'关于主动权', t:'聊天框里，最后一句通常是谁发的？', o:[
+    ['多半是我，想到什么就发过去','P'],['一定是我，不回完总觉得少了点什么','C'],
+    ['谁都行，话题自然停就停','R'],['常常不是我，我不太主动找人','I']]},
+  {c:'关于距离和边界', t:'对方一整天没回消息，你的第一反应是？', o:[
+    ['直接问一句「忙完了吗」，顺手约个时间','P2'],['忍不住反复看手机，有点失落','C2'],
+    ['先当他在忙，该干嘛干嘛','R'],['正好，我也需要一点自己的空间','I2']]},
+  {c:'关于表达', t:'你有多喜欢一个人，通常会怎么让对方知道？', o:[
+    ['说得很直白，喜欢就该让人知道','P'],['不说也会黏着，行动里全是','C'],
+    ['等关系稳一点，再慢慢讲','R'],['不太讲，对方自己感受得到就好','I']]},
+  {c:'关于冲突', t:'两个人意见不合、气氛有点僵的时候，你会？', o:[
+    ['当场把话说开，别拖到明天','P'],['先安抚情绪，怕关系冷下来','C2'],
+    ['各自冷静一下，晚点再聊','R'],['把边界讲清楚，然后先撤回自己','I']]},
+  {c:'关于节奏', t:'一段关系刚起步，你更希望它怎么走？', o:[
+    ['快一点，见面、确定关系都别磨','P2'],['最好天天有回应，慢慢融进彼此生活','C'],
+    ['按各自舒服的速度来，不用定计划','R'],['先保留原来的生活节奏，别被打乱','I2']]},
+  {c:'关于安全感', t:'下面哪件事最容易让你觉得「稳了」？', o:[
+    ['对方把未来的安排里明确写上我','P'],['每天都有固定的、只属于我们的时间','C'],
+    ['彼此不用解释也不会被误会','R'],['即使不联系，也知道关系还在','I']]},
+  {c:'关于惊喜', t:'对方突然安排了一次没提前说的约会，你会？', o:[
+    ['太好了，我本来就爱这种节奏','P'],['有点被放在心上的开心','C2'],
+    ['开心，但下次最好提前说一声','R'],['有点压力，我的计划被打乱了','I']]},
+  {c:'关于付出', t:'为了喜欢的人，你更愿意做哪件事？', o:[
+    ['主动替他把事情推进、张罗好','P'],['记住所有小细节，长期陪着','C'],
+    ['在他需要的时候给到靠谱的支持','R'],['给足空间，不越界也不打扰','I']]},
+  {c:'关于吃醋', t:'看到对方和别人聊得很热，你心里更可能是？', o:[
+    ['直接问，顺便宣告一下主权','P'],['有点酸，会想被多哄一下','C2'],
+    ['先看事实，不乱猜','R'],['不太干预，各自有各自的社交','I2']]},
+  {c:'关于独处', t:'连续几天高强度相处之后，你需要什么？', o:[
+    ['不用缓冲，接着一起做点别的','P'],['还想黏着，分开就有点空','C'],
+    ['安静待一会儿，但心里是暖的','R2'],['实实在在的独处时间，谁也别找我','I']]},
+  {c:'关于表白', t:'如果要你形容「喜欢」，你更接近哪一句？', o:[
+    ['我想和你一起把事情做成','P'],['我想一直在你身边','C'],
+    ['和你在一起我很踏实','R'],['你还是你，我不想改变你','I']]},
+  {c:'关于计划', t:'周末两天，理想安排是？', o:[
+    ['我来定行程，拉着你出门','P'],['两个人一起待着就行，去哪都好','C'],
+    ['一半一起、一半各做各的','R2'],['各有安排，晚上交换一下见闻','I2']]},
+  {c:'关于被误解', t:'对方误会了你的意思，你通常？', o:[
+    ['马上解释清楚，越具体越好','P'],['先确认他有没有不高兴','C2'],
+    ['等情绪过去了再慢慢说','R'],['不急着辩，时间会说明','I']]},
+  {c:'关于承诺', t:'听到「我们以后怎样怎样」，你的感觉是？', o:[
+    ['踏实，最好能落成具体计划','P2'],['很受用，想听到更多次','C'],
+    ['听着挺好，但我更看现在','R'],['先别把话说太满，留点余地','I']]},
+  {c:'关于脆弱', t:'状态很差的那天，你更希望对方怎么对你？', o:[
+    ['直接过来，带我去做点什么','P'],['陪着我，别走开就好','C'],
+    ['别太紧张，给我一点安静','R2'],['让我自己缓一缓，晚点再联系','I']]},
+  {c:'关于关系里的自己', t:'朋友说你谈恋爱时最明显的变化是？', o:[
+    ['变得更果断、更有行动力','P'],['整个人都围着对方转','C'],
+    ['好像没什么变化，只是更放松','R'],['还是原来的样子，边界很清楚','I']]},
+  {c:'最后一题', t:'如果给这段关系写一句注脚，你会选？', o:[
+    ['一起往前走，别停在原地','P'],['我在，一直都在','C'],
+    ['不急，慢慢来也很好','R'],['相爱，也各自完整','I2']]}
+];
+
+/* 12 种动物画像：vec = [主动, 亲密, 表达, 从容]，0-100 */
+const ANIMALS = [
+  {key:'tiger', name:'猛虎掌控型', en:'THE TIGER', tag:'喜欢就往前走，节奏我来定', vec:[92,62,88,55],
+   bg:'#f8e3c0', fur:'#efb85f', inner:'#f7d6a5', ear:'round', mark:'stripe', deco:'crown', eyes:'dot',
+   desc:'你在关系里是天然的推进者：心动就要见面，有问题就当场说清楚，最怕拖着不决。你把「在乎」翻译成行动——安排、张罗、把对方写进自己的计划里。这种笃定很有感染力，也容易让人觉得被稳稳接住。',
+   advice:['把「我来定」偶尔换成「你想怎么安排」，给对方留出主导一次的机会','行动之前多问一句对方当下的状态，速度合拍比方向正确更重要','别把关系当成待办清单，允许有些日子什么都不推进'],
+   with:'给他明确的回应就好，含糊和久拖不决最消耗他。', trap:'容易把照顾变成掌控，把果断变成不给对方商量的余地。'},
+  {key:'golden', name:'金毛上头型', en:'THE GOLDEN', tag:'喜欢就要在一起，一秒都不想空', vec:[78,93,82,35],
+   bg:'#fbe9cd', fur:'#e8bd7e', inner:'#f6d8ad', ear:'drop', mark:'none', deco:'heart', eyes:'dot',
+   desc:'你的喜欢是满格、外放、藏不住的：消息想秒回，见面想天天见，对方一点回应就能亮一整天。你擅长制造温度，也把「被需要」看得很重。关系里最亮的那部分，常常是你先点起来的。',
+   advice:['给自己设一个「不查手机」的时间段，把注意力挪回自己的事','把失落直接说出来，别用试探代替表达','记住：对方需要空间不等于不喜欢你'],
+   with:'稳定的回应和一点点主动，就能让他安心很久。', trap:'热度来得太快时，容易把对方的节奏误读成冷淡。'},
+  {key:'cat', name:'猫咪反骨型', en:'THE CAT', tag:'你主动，我高冷；你不理我，我偏要黏', vec:[45,35,55,72],
+   bg:'#f2e9f4', fur:'#c9b2d4', inner:'#e7d6ec', ear:'point', mark:'none', deco:'bow', eyes:'sleepy',
+   desc:'你把独立看得比什么都重，靠近可以，被安排不行。喜欢一个人也不会立刻交出全部生活，而是先隔着一点距离观察。你的在意常常藏在「不主动」里——不找，不代表没想。',
+   advice:['偶尔把「我想你了」说出口，别总等对方先猜','明确告诉对方你需要独处，而不是用冷淡代替说明','允许自己被照顾一次，不必每次都自己扛'],
+   with:'别追太紧，给空间、给选择权，他会自己走过来。', trap:'边界说得太少，容易被误会成不在乎。'},
+  {key:'koala', name:'考拉挂件型', en:'THE KOALA', tag:'大事可以自己扛，小事必须黏着你', vec:[28,92,45,68],
+   bg:'#eef1ea', fur:'#b9c4b3', inner:'#dce3d6', ear:'round', mark:'none', deco:'leaf', eyes:'dot',
+   desc:'你不太主动发起什么，却极擅长长期陪伴。稳定的日常、固定的联系、可预期的温柔，就是你的安全感来源。你不需要轰轰烈烈，只需要「一直都在」这四个字是真的。',
+   advice:['把想要陪伴的需求直接讲出来，别等对方自己发现','关系之外保留一两件只属于自己的事','遇到不舒服先说，别攒到某天一次性沉默'],
+   with:'稳定比惊喜更打动他，别忽冷忽热。', trap:'太习惯配合，容易把自己的需求排到最后。'},
+  {key:'capybara', name:'水豚清醒型', en:'THE CAPYBARA', tag:'消息可以晚回，饭不能凉', vec:[35,45,30,95],
+   bg:'#e9f0ec', fur:'#b59c7f', inner:'#d8c6ad', ear:'small', mark:'none', deco:'none', eyes:'sleepy',
+   desc:'你是关系里的恒温器：不急着推进，也不轻易被情绪带走。别人上头的时候你还能把饭按时吃了，误会来了先看事实。跟你相处很省心，因为很少有大起大落。',
+   advice:['偶尔主动表达一次热烈，对方需要看见「你也在意」','别把冷静用成回避，情绪也需要被接一下','重要节点给一句明确的话，比默认默契更稳'],
+   with:'别要求他即时热烈，他的稳定本身就是答案。', trap:'太不慌不忙时，容易让对方觉得没被放在心上。'},
+  {key:'penguin', name:'企鹅同盟型', en:'THE PENGUIN', tag:'架归架吵，明天的奶茶还是买两杯', vec:[62,78,55,82],
+   bg:'#e8eef3', fur:'#4f5a66', inner:'#f7f3ee', ear:'none', mark:'mask', deco:'scarf', eyes:'dot',
+   desc:'你把恋爱当成「我们俩一起过日子」：讲配合、讲分工、讲说到做到。既有温度又有秩序，吵架不会掀桌，第二天照常一起吃饭。你要的不是心跳，是队友。',
+   advice:['在讲道理之前，先花十秒接住对方的情绪','别把关系全变成待办与分工，留点没用的浪漫','偶尔也让对方替你做一次决定'],
+   with:'跟他讲清楚、说到做到，比什么都管用。', trap:'太讲秩序时，容易忽略关系里那些不讲理的情绪。'},
+  {key:'fox', name:'狐狸试探型', en:'THE FOX', tag:'先递个眼神，看你接不接得住', vec:[72,48,78,60],
+   bg:'#fbe8d8', fur:'#e08b55', inner:'#f8dcc2', ear:'point', mark:'patch', deco:'none', eyes:'sleepy',
+   desc:'你擅长铺台阶、留线索、把主动权握得刚刚好：进可攻，退可守。表达很有分寸，也期待对方接得住暗示。关系对你来说，一半是心动，一半是有趣的博弈。',
+   advice:['关键的话别只靠暗示，直说一次不会减分','试探到差不多就收手，别把确认变成反复考核','允许对方反应慢一点，不是每个人都擅长接梗'],
+   with:'接住他的梗，也给他一次不用猜的确定。', trap:'太爱留余地时，真诚容易被读成不认真。'},
+  {key:'rabbit', name:'兔子敏感型', en:'THE RABBIT', tag:'你语气一变，我脑子里已经演完三集', vec:[35,88,62,30],
+   bg:'#fbeef0', fur:'#e8d6d8', inner:'#f7c9cf', ear:'long', mark:'none', deco:'heart', eyes:'big',
+   desc:'你对关系里的细微变化极其敏锐：一个语气、一次晚回，都会被你认真对待。你投入得深、记得住细节，也最容易因为不确定而波动。这份敏感，用好了是体贴，用累了就是内耗。',
+   advice:['把「我有点不安」说成一句话，别让对方猜整晚','给自己一个缓冲：先不下结论，过两小时再看','把注意力分一点回到自己的生活里'],
+   with:'明确、温柔、可预期的回应，就是最好的安抚。', trap:'容易把中性信息读成坏消息，先确认再难过。'},
+  {key:'bear', name:'棕熊安稳型', en:'THE BEAR', tag:'不常说爱，但你需要的都在', vec:[48,72,35,88],
+   bg:'#f2e9de', fur:'#a98262', inner:'#d8bb9d', ear:'round', mark:'none', deco:'none', eyes:'dot',
+   desc:'你的喜欢偏承重、不喧哗：少说漂亮话，多把事情办妥。你不太在意外面怎么热闹，更在意两个人日子过得稳不稳。时间越长，你给出的踏实感越明显。',
+   advice:['把做过的事也说一句出口，爱需要被听见','偶尔主动安排一次只为了开心的约会','别把所有压力都自己扛，示弱不是失职'],
+   with:'别用话多少衡量他，看他做了什么。', trap:'太习惯沉默付出，对方可能一直不知道你在意。'},
+  {key:'owl', name:'猫头鹰观察型', en:'THE OWL', tag:'先别急，我看一会儿再说', vec:[40,40,45,92],
+   bg:'#eceae2', fur:'#9e957f', inner:'#d6cfbc', ear:'small', mark:'mask', deco:'glasses', eyes:'big',
+   desc:'进入关系前你会先观察很久：不大起大落，也不急着下结论。你看重逻辑、边界和一致性，最怕被情绪推着做决定。一旦认定，你给出的判断通常很可靠。',
+   advice:['观察够了就往前走一步，别永远停在评估阶段','把分析之外的感受也说一点，对方想被看见','允许关系里有些没有答案的部分'],
+   with:'给他事实和时间，别催他立刻表态。', trap:'太习惯旁观，容易让对方觉得走不进你的世界。'},
+  {key:'dolphin', name:'海豚共情型', en:'THE DOLPHIN', tag:'你还没开口，我已经感觉到了', vec:[70,85,88,62],
+   bg:'#e4f0f3', fur:'#8fb8c9', inner:'#cce4ea', ear:'none', mark:'none', deco:'none', eyes:'dot',
+   desc:'你既愿意主动，也很会接住情绪：能说，也能听。关系里的气氛常常由你先暖起来，对方的欲言又止，你多半第一时间就懂。跟你相处，很少有人觉得孤单。',
+   advice:['照顾别人之前，先确认自己今天还有没有余力','别把「我懂」当成「我同意」，边界也要说','允许有些情绪不需要你来修复'],
+   with:'把你的感受也交给他一点，别总做那个接住的人。', trap:'共情太满时，容易把对方的情绪背到自己身上。'},
+  {key:'hedgehog', name:'刺猬边界型', en:'THE HEDGEHOG', tag:'相爱，也各自完整', vec:[30,30,40,85],
+   bg:'#efe9e4', fur:'#9a8577', inner:'#d9c7b7', ear:'small', mark:'spike', deco:'none', eyes:'dot',
+   desc:'你把「我是我、你是你」看得和相爱一样重要。不黏、不查、不轻易让渡自己的生活，也不要求对方为你改变。你给的信任很干净：不捆绑，但说到做到。',
+   advice:['偶尔主动靠近一次，让对方知道不是被推开','把边界说成邀请，而不是劝退','需要支持时开口，独立不等于全程自己来'],
+   with:'尊重他的节奏，别把距离当成拒绝。', trap:'边界太清楚时，亲密感容易一直停在门口。'}
+];
+
+/* ---------------- 原创 SVG 动物头像 ---------------- */
+function animalSvg(a, size){
+  size = size || 200;
+  const fur=a.fur, inner=a.inner, bg=a.bg;
+  const ears = {
+    point:`<path d="M48 78 L42 24 L86 56 Z" fill="${fur}"/><path d="M152 78 L158 24 L114 56 Z" fill="${fur}"/>
+           <path d="M54 70 L50 38 L78 58 Z" fill="${inner}"/><path d="M146 70 L150 38 L122 58 Z" fill="${inner}"/>`,
+    round:`<circle cx="52" cy="56" r="25" fill="${fur}"/><circle cx="148" cy="56" r="25" fill="${fur}"/>
+           <circle cx="52" cy="56" r="13" fill="${inner}"/><circle cx="148" cy="56" r="13" fill="${inner}"/>`,
+    long:`<ellipse cx="64" cy="40" rx="14" ry="34" fill="${fur}"/><ellipse cx="136" cy="40" rx="14" ry="34" fill="${fur}"/>
+          <ellipse cx="64" cy="42" rx="6.5" ry="24" fill="${inner}"/><ellipse cx="136" cy="42" rx="6.5" ry="24" fill="${inner}"/>`,
+    drop:`<path d="M55 50 Q24 52 31 100 Q39 120 58 95 Z" fill="${fur}"/><path d="M145 50 Q176 52 169 100 Q161 120 142 95 Z" fill="${fur}"/>`,
+    small:`<circle cx="60" cy="62" r="15" fill="${fur}"/><circle cx="140" cy="62" r="15" fill="${fur}"/>
+           <circle cx="60" cy="62" r="7" fill="${inner}"/><circle cx="140" cy="62" r="7" fill="${inner}"/>`,
+    none:``
+  }[a.ear] || '';
+  const marks = {
+    stripe:`<path d="M70 76 l10 16 M100 70 l0 18 M130 76 l-10 16" stroke="#c88c37" stroke-width="5" stroke-linecap="round" opacity=".75"/>`,
+    patch:`<ellipse cx="78" cy="104" rx="20" ry="15" fill="#f7e4d2" opacity=".85"/><ellipse cx="122" cy="104" rx="20" ry="15" fill="#f7e4d2" opacity=".85"/>`,
+    mask:`<ellipse cx="100" cy="118" rx="44" ry="34" fill="#f9f6f0" opacity=".92"/>`,
+    spike:`<path d="M58 62 l8 -24 l12 18 l12 -26 l12 26 l12 -18 l10 24" fill="${fur}" opacity=".95"/>`,
+    freckle:`<circle cx="72" cy="126" r="2" fill="#b98" opacity=".6"/><circle cx="82" cy="130" r="2" fill="#b98" opacity=".6"/>
+             <circle cx="128" cy="126" r="2" fill="#b98" opacity=".6"/><circle cx="118" cy="130" r="2" fill="#b98" opacity=".6"/>`,
+    none:``
+  }[a.mark] || '';
+  const decos = {
+    crown:`<path d="M76 46 l8 -20 l16 14 l16 -14 l8 20 z" fill="#e8bd63" stroke="#c99b45" stroke-width="2" stroke-linejoin="round"/>
+           <circle cx="100" cy="32" r="3" fill="#fff3d0"/>`,
+    heart:`<path d="M146 40 c-8 -12 -24 -2 -14 10 l14 14 l14 -14 c10 -12 -6 -22 -14 -10 z" fill="#e78fa1" opacity=".9"/>`,
+    leaf:`<path d="M146 44 q22 -14 26 6 q-18 16 -26 -6 z" fill="#8fae85"/><path d="M146 44 q12 4 22 2" stroke="#6f8f68" stroke-width="2" fill="none"/>`,
+    glasses:`<circle cx="80" cy="106" r="16" fill="none" stroke="#6d5a4a" stroke-width="3"/><circle cx="120" cy="106" r="16" fill="none" stroke="#6d5a4a" stroke-width="3"/>
+             <path d="M96 106 h8 M64 103 l-10 -5 M136 103 l10 -5" stroke="#6d5a4a" stroke-width="3" fill="none"/>`,
+    scarf:`<path d="M62 152 q38 18 76 0 l-6 18 q-32 12 -64 0 z" fill="#c96f6f"/>`,
+    bow:`<path d="M138 48 q-18 -12 -18 4 q0 16 18 4 q18 12 18 -4 q0 -16 -18 -4 z" fill="#d98aa2"/><circle cx="138" cy="52" r="4" fill="#f3cdd8"/>`,
+    none:``
+  }[a.deco] || '';
+  const sleepy = a.eyes==='sleepy';
+  const eyeR = a.eyes==='big' ? 8 : 5.5;
+  const eyes = sleepy
+    ? `<path d="M72 106 q8 7 16 0 M112 106 q8 7 16 0" stroke="#3f312c" stroke-width="4" fill="none" stroke-linecap="round"/>`
+    : `<circle cx="80" cy="106" r="${eyeR}" fill="#3f312c"/><circle cx="120" cy="106" r="${eyeR}" fill="#3f312c"/>
+       <circle cx="82" cy="104" r="2" fill="#fff"/><circle cx="122" cy="104" r="2" fill="#fff"/>`;
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${a.name}">
+    <circle cx="100" cy="100" r="96" fill="${bg}"/>
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="2"/>
+    ${ears}${marks}
+    <ellipse cx="100" cy="114" rx="61" ry="55" fill="${fur}"/>
+    <ellipse cx="100" cy="132" rx="36" ry="24" fill="#ffffff" opacity=".28"/>
+    ${eyes}
+    <ellipse cx="66" cy="126" rx="9" ry="5" fill="#e58d99" opacity=".42"/>
+    <ellipse cx="134" cy="126" rx="9" ry="5" fill="#e58d99" opacity=".42"/>
+    <path d="M100 122 q-7 8 -13 1 M100 122 q7 8 13 1" stroke="#5a4038" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="100" cy="121" rx="5" ry="3.4" fill="#5a4038"/>
+    ${decos}
+  </svg>`;
+}
+
+/* ---------------- 计分：确定性、无随机数 ---------------- */
+function computeResult(){
+  const sums=[0,0,0,0];
+  QUESTIONS.forEach(function(q,i){
+    const k=answers[i];
+    if(k>=0){ const v=TEND[q.o[k][1]]; for(let d=0;d<4;d++) sums[d]+=v[d]; }
+  });
+  const max=QUESTIONS.length*3;
+  const vec=sums.map(function(s){ return Math.round(s/max*100); });
+  const scored=ANIMALS.map(function(a,idx){
+    let sq=0; for(let d=0;d<4;d++){ const diff=vec[d]-a.vec[d]; sq+=diff*diff; }
+    const sim=100-Math.sqrt(sq/4);
+    return {idx:idx, sim:Math.round(sim*10)/10};
+  }).sort(function(x,y){ return y.sim-x.sim || x.idx-y.idx; });
+  return {vec:vec, best:scored[0].idx, runner:scored[1].idx, sim:scored[0].sim};
+}
+
+/* ---------------- 状态与渲染 ---------------- */
+let answers=new Array(QUESTIONS.length).fill(-1);
+let current=0;
+
+const $=function(id){ return document.getElementById(id); };
+function show(id){
+  ['home','quiz','result'].forEach(function(s){ $(s).classList.toggle('active', s===id); });
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(toast._t); toast._t=setTimeout(function(){ t.classList.remove('on'); },2200);
+}
+function renderGallery(el, highlight){
+  el.innerHTML=ANIMALS.map(function(a,i){
+    return `<div class="animal-card ${i===highlight?'win':''}" data-i="${i}" title="${a.tag}">
+      ${animalSvg(a, 90)}<b>${a.name}</b><small>${a.tag}</small></div>`;
+  }).join('');
+  Array.prototype.forEach.call(el.querySelectorAll('.animal-card'), function(c){
+    c.addEventListener('click', function(){ toast(ANIMALS[+c.dataset.i].name+'：'+ANIMALS[+c.dataset.i].tag); });
+  });
+}
+function renderHome(){
+  $('heroArt').innerHTML=animalSvg(ANIMALS[0],180);
+  renderGallery($('gallery'), -1);
+}
+function renderQuiz(){
+  const q=QUESTIONS[current];
+  $('qCat').textContent=q.c;
+  $('qCount').textContent=String(current+1).padStart(2,'0')+' / '+QUESTIONS.length;
+  $('qNum').textContent='Question '+String(current+1).padStart(2,'0');
+  $('qTitle').textContent=q.t;
+  const answered=answers.filter(function(a){ return a>=0; }).length;
+  $('qBar').style.width=(answered/QUESTIONS.length*100)+'%';
+  $('qProgress').textContent='已答 '+answered+' / '+QUESTIONS.length+' 题';
+  $('qOpts').innerHTML=q.o.map(function(o,i){
+    return `<button class="opt ${answers[current]===i?'on':''}" data-k="${i}">
+      <span class="letter">${'ABCD'[i]}</span><span>${o[0]}</span></button>`;
+  }).join('');
+  Array.prototype.forEach.call($('qOpts').querySelectorAll('.opt'), function(b){
+    b.addEventListener('click', function(){ pick(+b.dataset.k); });
+  });
+  $('prevBtn').disabled=(current===0);
+  $('prevBtn').style.opacity=(current===0?'.45':'1');
+  $('nextBtn').textContent=(current===QUESTIONS.length-1?'揭晓我的动物 →':'下一题 →');
+}
+function pick(k){
+  answers[current]=k;
+  renderQuiz();
+  if(current<QUESTIONS.length-1){
+    clearTimeout(pick._t);
+    pick._t=setTimeout(function(){ go(current+1); },180);
+  }
+}
+function go(n){
+  current=Math.max(0,Math.min(QUESTIONS.length-1,n));
+  renderQuiz();
+}
+function openSheet(){
+  $('grid18').innerHTML=answers.map(function(a,i){
+    return `<button data-q="${i}" class="${a>=0?'done':''} ${i===current?'cur':''}">${i+1}</button>`;
+  }).join('');
+  Array.prototype.forEach.call($('grid18').querySelectorAll('button'), function(b){
+    b.addEventListener('click', function(){ go(+b.dataset.q); $('overlay').classList.remove('on'); });
+  });
+  $('overlay').classList.add('on');
+}
+function renderResult(){
+  const r=computeResult(), a=ANIMALS[r.best], b=ANIMALS[r.runner];
+  const answered=answers.filter(function(x){ return x>=0; }).length;
+  $('rPic').innerHTML=animalSvg(a,150);
+  $('rName').textContent=a.name;
+  $('rEn').textContent=a.en;
+  $('rTag').textContent='「'+a.tag+'」';
+  $('rMatch').textContent='画像匹配度 '+r.sim+'% · 次接近：'+b.name+' · 已答 '+answered+' 题';
+  $('rDims').innerHTML=DIMS.map(function(d,i){
+    return `<div class="dim"><div class="dh"><b>${d.k} <span style="color:#a99e95;font-weight:400">${d.d}</span></b><span>${r.vec[i]}</span></div>
+      <div class="track"><i style="width:${r.vec[i]}%"></i></div></div>`;
+  }).join('');
+  $('rHow').textContent='怎么算的：18 道题里每个选项分别对应「主动 / 亲密 / 表达 / 从容」上的一组固定分值，累加后除以满分 '+QUESTIONS.length*3+' 再换算成 0–100，然后与 12 种动物画像的四维坐标比较距离，取最接近的一种。全程没有随机数；返回修改任意一题，都会按新答案重新计算。';
+  $('rDesc').textContent=a.desc;
+  $('rAdvice').innerHTML=a.advice.map(function(x,i){ return `<li><i>0${i+1}</i><span>${x}</span></li>`; }).join('');
+  $('rWith').textContent=a.with;
+  $('rTrap').textContent=a.trap;
+  renderGallery($('rGallery'), r.best);
+}
+
+/* ---------------- 事件 ---------------- */
+$('startBtn').addEventListener('click', function(){ current=0; renderQuiz(); show('quiz'); });
+$('prevBtn').addEventListener('click', function(){ if(current>0) go(current-1); });
+$('nextBtn').addEventListener('click', function(){
+  if(answers[current]<0){ toast('这一题还没答，选一个再走吧～'); return; }
+  if(current<QUESTIONS.length-1){ go(current+1); return; }
+  const missing=answers.filter(function(x){ return x<0; }).length;
+  if(missing>0){ toast('还有 '+missing+' 题没答，返回答题卡补一下吧'); openSheet(); return; }
+  renderResult(); show('result');
+});
+$('sheetBtn').addEventListener('click', openSheet);
+$('closeSheet').addEventListener('click', function(){ $('overlay').classList.remove('on'); });
+$('overlay').addEventListener('click', function(e){ if(e.target===$('overlay')) $('overlay').classList.remove('on'); });
+$('restartBtn').addEventListener('click', function(){
+  answers=new Array(QUESTIONS.length).fill(-1); current=0; renderHome(); show('home');
+});
+$('backEditBtn').addEventListener('click', function(){ current=0; renderQuiz(); show('quiz'); openSheet(); });
+$('copyBtn').addEventListener('click', function(){
+  const r=computeResult(), a=ANIMALS[r.best];
+  const text='我的恋爱动物人格是「'+a.name+'」——'+a.tag+'。四维坐标：'+DIMS.map(function(d,i){return d.k+' '+r.vec[i];}).join(' / ')+'。';
+  const done=function(){ toast('结果文案已复制'); };
+  if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(text).then(done,function(){ legacyCopy(text,done); }); }
+  else legacyCopy(text,done);
+});
+function legacyCopy(text,cb){
+  const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); cb(); }catch(e){ toast('复制失败，请手动选择'); }
+  document.body.removeChild(ta);
+}
+document.addEventListener('keydown', function(e){
+  if(!$('quiz').classList.contains('active')) return;
+  if('1234'.indexOf(e.key)>=0 && e.key.length===1){ pick(+e.key-1); }
+  if(e.key==='ArrowLeft' && current>0) go(current-1);
+  if(e.key==='ArrowRight' && current<QUESTIONS.length-1 && answers[current]>=0) go(current+1);
+});
+
+/* ---------------- 自检模式：?selftest=1 ---------------- */
+function selfTest(){
+  const out=[];
+  const all=function(k){ for(let i=0;i<QUESTIONS.length;i++) answers[i]=k; };
+  all(0); const rA=computeResult();
+  all(3); const rD=computeResult();
+  all(1); const rC=computeResult();
+  all(2); const rR=computeResult();
+  out.push('题目数='+QUESTIONS.length+', 画像数='+ANIMALS.length);
+  out.push('全A='+ANIMALS[rA.best].name+', 全B='+ANIMALS[rC.best].name+', 全C='+ANIMALS[rR.best].name+', 全D='+ANIMALS[rD.best].name);
+  all(0); const again=computeResult();
+  out.push('同答案可复现='+(JSON.stringify(rA)===JSON.stringify(again)));
+  out.push('不同答案结果不同='+(rA.best!==rD.best && rC.best!==rR.best));
+  answers[0]=3; const changed=computeResult();
+  out.push('改一题后分数变化='+(JSON.stringify(rA.vec)!==JSON.stringify(changed.vec)));
+  out.push('四维均在0-100='+rA.vec.every(function(v){ return v>=0&&v<=100; }));
+  out.push('无未定义按钮='+['startBtn','nextBtn','prevBtn','sheetBtn','restartBtn','copyBtn','backEditBtn'].every(function(id){ return !!$(id); }));
+  const ok=JSON.stringify(rA)===JSON.stringify(again) && rA.best!==rD.best && rC.best!==rR.best &&
+           JSON.stringify(rA.vec)!==JSON.stringify(changed.vec) && rA.vec.every(function(v){return v>=0&&v<=100;}) &&
+           QUESTIONS.length===18 && ANIMALS.length===12 &&
+           QUESTIONS.every(function(q){ return q.o.length===4 && q.o.every(function(o){ return !!TEND[o[1]]; }); });
+  const result=(ok?'SELFTEST_PASS':'SELFTEST_FAIL')+' | '+out.join(' | ');
+  $('selftest-output').textContent=result;
+  document.title=ok?'SELFTEST_PASS':'SELFTEST_FAIL';
+}
+if(location.search.indexOf('selftest')>=0){ selfTest(); }
+else { renderHome(); renderQuiz(); }
+</script>
+</body>
+</html>
